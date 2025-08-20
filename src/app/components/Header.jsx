@@ -1,12 +1,35 @@
 'use client';
 
 import { useState } from 'react';
+import Login from './Login';
+import Register from './Register';
 
 const Header = () => {
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
 
+  const openLogin = () => {
+    setIsLoginOpen(true);
+    setIsRegisterOpen(false);
+  };
+
+  const openRegister = () => {
+    setIsRegisterOpen(true);
+    setIsLoginOpen(false);
+  };
+
+  const closeModals = () => {
+    setIsLoginOpen(false);
+    setIsRegisterOpen(false);
+  };
+
+  const toggleCategories = () => {
+    setIsCategoriesOpen(!isCategoriesOpen);
+  };
+
   return (
-    <header className="bg-white border-b border-gray-200">
+    <header className="bg-white border-b border-gray-200 sticky top-0 z-50 relative group">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo Area */}
@@ -17,13 +40,13 @@ const Header = () => {
           {/* Categories Menu */}
           <div className="flex items-center">
             <button
-              onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
-              className="flex items-center space-x-1.5 text-gray-600 hover:text-black transition-colors px-3 py-2 rounded-md"
+              onClick={toggleCategories}
+              className="flex items-center space-x-1.5 text-gray-600 hover:text-black hover:bg-gray-100 transition-all duration-200 px-3 py-2 rounded-md"
             >
               <div className="flex flex-col space-y-1.5">
-                <div className="w-5 h-px bg-current"></div>
-                <div className="w-5 h-px bg-current"></div>
-                <div className="w-5 h-px bg-current"></div>
+                <div className="w-5 h-px bg-current transition-all duration-200 group-hover:bg-black"></div>
+                <div className="w-5 h-px bg-current transition-all duration-200 group-hover:bg-black"></div>
+                <div className="w-5 h-px bg-current transition-all duration-200 group-hover:bg-black"></div>
               </div>
               <span className="text-sm font-medium">Categories</span>
             </button>
@@ -48,7 +71,12 @@ const Header = () => {
           {/* User Action Icons */}
           <div className="flex items-center space-x-5">
             {/* Sign in */}
-            <span className="text-sm text-gray-600 hover:text-black transition-colors cursor-pointer font-medium">Sign in</span>
+            <button 
+              onClick={openLogin}
+              className="text-sm text-gray-600 hover:text-black transition-colors cursor-pointer font-medium"
+            >
+              Sign in
+            </button>
             
             {/* Wishlist Icon */}
             <button className="text-gray-600 hover:text-black transition-colors p-1">
@@ -69,7 +97,9 @@ const Header = () => {
       </div>
 
       {/* Categories Dropdown */}
-      <div className={`absolute left-0 w-full bg-white border-b border-gray-200 shadow-md z-50 transition-all duration-300 ease-in-out ${isCategoriesOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'}`}>
+      <div className={`absolute left-0 right-0 top-full bg-white border-b border-gray-200 shadow-md z-50 transition-all duration-300 ease-in-out ${
+        isCategoriesOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-4 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto'
+      }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
             <a href="#" className="text-sm text-gray-600 hover:text-black transition-colors py-1.5">Electronics</a>
@@ -81,6 +111,20 @@ const Header = () => {
           </div>
         </div>
       </div>
+
+      {/* Login Modal */}
+      <Login 
+        isOpen={isLoginOpen} 
+        onClose={closeModals}
+        onSwitchToRegister={openRegister}
+      />
+
+      {/* Register Modal */}
+      <Register 
+        isOpen={isRegisterOpen} 
+        onClose={closeModals}
+        onSwitchToLogin={openLogin}
+      />
     </header>
   );
 };
