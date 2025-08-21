@@ -53,7 +53,19 @@ const SecondPage = () => {
         { id: 8, name: "Blouse", price: "PHP x,xxx", image: "/images/product8.png", rating: 4 },
         { id: 9, name: "Shorts", price: "PHP x,xxx", image: "/images/product9.png", rating: 3 },
         { id: 10, name: "Shirt", price: "PHP x,xxx", image: "/images/product10.png", rating: 5 },
-        // ... add other products similarly
+        { id: 11, name: "Lorem ipsum dolor sit amet, consectetur", price: "PHP x,xxx", emoji: "🥾", rating: 4 },
+        { id: 12, name: "Lorem ipsum dolor sit amet, consectetur", price: "PHP x,xxx", emoji: "👒", rating: 5 },
+        { id: 13, name: "Lorem ipsum dolor sit amet, consectetur", price: "PHP x,xxx", emoji: "🧦", rating: 4 },
+        { id: 14, name: "Lorem ipsum dolor sit amet, consectetur", price: "PHP x,xxx", emoji: "👓", rating: 5 },
+        { id: 15, name: "Lorem ipsum dolor sit amet, consectetur", price: "PHP x,xxx", emoji: "🧤", rating: 4 },
+        { id: 16, name: "Lorem ipsum dolor sit amet, consectetur", price: "PHP x,xxx", emoji: "🧣", rating: 5 },
+        { id: 17, name: "Lorem ipsum dolor sit amet, consectetur", price: "PHP x,xxx", emoji: "👞", rating: 4 },
+        { id: 18, name: "Lorem ipsum dolor sit amet, consectetur", price: "PHP x,xxx", emoji: "🥿", rating: 5 },
+        { id: 19, name: "Lorem ipsum dolor sit amet, consectetur", price: "PHP x,xxx", emoji: "👡", rating: 4 },
+        { id: 20, name: "Lorem ipsum dolor sit amet, consectetur", price: "PHP x,xxx", emoji: "🧳", rating: 5 },
+        { id: 21, name: "Lorem ipsum dolor sit amet, consectetur", price: "PHP x,xxx", emoji: "🎒", rating: 4 },
+        { id: 22, name: "Lorem ipsum dolor sit amet, consectetur", price: "PHP x,xxx", emoji: "👛", rating: 5 },
+        { id: 23, name: "Lorem ipsum dolor sit amet, consectetur", price: "PHP x,xxx", emoji: "💼", rating: 4 },
     ];
 
     const featuredProducts = products.slice(0, 3); // First 3 products
