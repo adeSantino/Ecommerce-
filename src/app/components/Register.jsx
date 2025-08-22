@@ -1,9 +1,5 @@
 'use client';
 import { useState } from 'react';
-import { auth } from '@/firebase/firebaseConfig';
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { db } from '@/firebase/firebaseConfig';
-import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useRouter } from 'next/navigation';
 
 const Register = ({ isOpen, onClose, onSwitchToLogin }) => {
@@ -29,11 +25,12 @@ const Register = ({ isOpen, onClose, onSwitchToLogin }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
+
     setLoading(true);
     try {
       const userCredential = await createUserWithEmailAndPassword(

@@ -1,11 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { auth, googleProvider } from '@/firebase/firebaseConfig';
-import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signInWithPopup,
-} from 'firebase/auth';
+import from 'firebase/auth';
 import { db } from '@/firebase/firebaseConfig';
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useRouter } from 'next/navigation'; 
