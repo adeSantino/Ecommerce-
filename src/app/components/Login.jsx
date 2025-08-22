@@ -1,5 +1,8 @@
 'use client';
 import { useState } from 'react';
+import from 'firebase/auth';
+import { db } from '@/firebase/firebaseConfig';
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useRouter } from 'next/navigation'; 
 
 const Login = ({ isOpen, onClose, onSwitchToRegister }) => {
@@ -11,17 +14,60 @@ const Login = ({ isOpen, onClose, onSwitchToRegister }) => {
 
   if (!isOpen) return null;
 
-    const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // For now, just close the modal
-    // Firebase authentication can be added back later
-    onClose();
+    setError('');
+    try {
+      let userCredential;
+      if (isRegister) {
+        userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await setDoc(doc(db, "users", userCredential.user.uid), {
+          email: userCredential.user.email,
+          role: "user",
+        });
+        onClose();
+        router.push('/');
+      } else {
+        userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const userDoc = await getDoc(doc(db, "users", userCredential.user.uid));
+        const role = userDoc.exists() ? userDoc.data().role : "user";
+        if (role === "admin" || role === "superAdmin") {
+          onClose();
+          router.push('/adminDashboard');
+        } else {
+          onClose();
+          router.push('/');
+        }
+      }
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
-  const handleGoogle = () => {
-    // For now, just close the modal
-    // Firebase authentication can be added back later
-    onClose();
+  const handleGoogle = async () => {
+    setError('');
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+
+      const userDocRef = doc(db, "users", result.user.uid);
+      const userDoc = await getDoc(userDocRef);
+      if (!userDoc.exists()) {
+        await setDoc(userDocRef, {
+          email: result.user.email,
+          role: "user",
+        });
+      }
+      const role = userDoc.exists() ? userDoc.data().role : "user";
+      if (role === "admin" || role === "superAdmin") {
+        onClose();
+        router.push('/adminDashboard');
+      } else {
+        onClose();
+        router.push('/');
+      }
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
