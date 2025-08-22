@@ -1,9 +1,9 @@
-import Image from "next/image";
-import Secondpage from "../components/Secondpage";
-export default function Home() {
+import Store from "../components/Store";
+
+export default function SecondPage() {
     return (
         <div>
-            <Secondpage />
+            <Store />
         </div>
     );
 }
