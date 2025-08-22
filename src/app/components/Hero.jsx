@@ -27,8 +27,8 @@ const Hero = () => {
             <div className="flex-1 relative">
               <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent rounded-2xl"></div>
               <img
-                src="/api/placeholder/500/600"
-                alt="Fashion model in outdoor setting"
+                src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=500&h=600&fit=crop&crop=center"
+                alt="Fashion model wearing elegant clothing in outdoor setting"
                 className="w-full h-full object-cover rounded-2xl"
               />
             </div>
@@ -37,8 +37,8 @@ const Hero = () => {
             <div className="flex-1 relative">
               <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent rounded-2xl"></div>
               <img
-                src="/api/placeholder/500/600"
-                alt="Person with flowers"
+                src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=500&h=600&fit=crop&crop=center"
+                alt="Stylish person in modern clothing with urban background"
                 className="w-full h-full object-cover rounded-2xl"
               />
             </div>
@@ -69,8 +69,8 @@ const Hero = () => {
               <div className="bg-white rounded-xl overflow-hidden border border-gray-200 hover:shadow-md transition-all duration-300">
                 <div className="relative overflow-hidden">
                   <img
-                    src="/api/placeholder/250/300"
-                    alt="Casual outfit with black top and beige pants"
+                    src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=250&h=300&fit=crop&crop=center"
+                    alt="Minimalist white t-shirt on hanger"
                     className="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
@@ -86,8 +86,8 @@ const Hero = () => {
               <div className="bg-white rounded-xl overflow-hidden border border-gray-200 hover:shadow-md transition-all duration-300">
                 <div className="relative overflow-hidden">
                   <img
-                    src="/api/placeholder/250/300"
-                    alt="Green shirt with beige pants"
+                    src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=250&h=300&fit=crop&crop=center"
+                    alt="Essential button-up shirt in neutral colors"
                     className="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
@@ -103,8 +103,8 @@ const Hero = () => {
               <div className="bg-white rounded-xl overflow-hidden border border-gray-200 hover:shadow-md transition-all duration-300">
                 <div className="relative overflow-hidden">
                   <img
-                    src="/api/placeholder/250/300"
-                    alt="Couple in matching green outfits"
+                    src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=250&h=300&fit=crop&crop=center"
+                    alt="Modern clothing set with coordinated pieces"
                     className="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
@@ -120,8 +120,8 @@ const Hero = () => {
               <div className="bg-white rounded-xl overflow-hidden border border-gray-200 hover:shadow-md transition-all duration-300">
                 <div className="relative overflow-hidden">
                   <img
-                    src="/api/placeholder/250/300"
-                    alt="Black elegant dress"
+                    src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=250&h=300&fit=crop&crop=center"
+                    alt="Classic black elegant dress"
                     className="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
@@ -137,8 +137,8 @@ const Hero = () => {
               <div className="bg-white rounded-xl overflow-hidden border border-gray-200 hover:shadow-md transition-all duration-300">
                 <div className="relative overflow-hidden">
                   <img
-                    src="/api/placeholder/250/300"
-                    alt="Orange dress"
+                    src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=250&h=300&fit=crop&crop=center"
+                    alt="Summer dress in vibrant colors"
                     className="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
