@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Link from "next/link";
 import { Roboto } from "next/font/google";
 
 // ✅ Import Roboto font
@@ -12,7 +13,8 @@ const roboto = Roboto({
 const Pagination = () => {
     return (
         <div className="flex flex-col items-center mt-12 space-y-4">
-            <p className="text-xl font-roboto text-gray-900 tracking-tight">
+            <p className="text-xl text-gray-900 tracking-tight">
+                {/* ✨ Change: Removed `font-roboto` (invalid Tailwind class) */}
                 There's so much more for you to discover
             </p>
 
@@ -78,7 +80,7 @@ const SecondPage = () => {
             stars.push(
                 <svg
                     key={i}
-                    className={`h-4 w-4 ${i < rating ? "text-black-400" : "text-gray-300"}`}
+                    className={`h-4 w-4 ${i < rating ? "text-yellow-400" : "text-gray-300"}`}
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                     fill="currentColor"
@@ -92,26 +94,25 @@ const SecondPage = () => {
 
     return (
         <div className={`${roboto.className} bg-white p-6`}>
+            {/* ✨ Change: Entire page wrapped in roboto.className, so all text uses Roboto */}
             <div className="mx-auto max-w-7xl">
                 <h1 className="text-3xl font-bold mb-10 text-gray-900 tracking-tight">Shop the Look</h1>
 
                 {/* 🔥 Featured Row (Portrait Mode Images) */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
                     {featuredProducts.map((product) => (
-                        <div key={product.id} className="bg-white p-6 flex flex-col items-center">
-                            {/* ✅ Portrait mode: taller than wide with image */}
+                        <Link key={product.id} href="/product" className="bg-white p-6 flex flex-col items-center hover:scale-105 transition-transform"> 
                             <div className="flex items-center justify-center w-48 md:w-56 lg:w-64 h-72 md:h-80 lg:h-96 mb-4 rounded-lg bg-gray-50 overflow-hidden">
                                 <img src={product.image} alt={product.name} className="object-cover w-full h-full" />
                             </div>
-                            {/* ✅ Removed title, stars, and price */}
-                        </div>
+                        </Link>
                     ))}
                 </div>
 
                 {/* 🛍️ Other Products */}
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
                     {otherProducts.map((product) => (
-                        <div key={product.id} className="bg-white p-4 flex flex-col items-center">
+                        <Link key={product.id} href="/product" className="bg-white p-4 flex flex-col items-center hover:scale-105 transition-transform"> 
                             <div className="flex items-center justify-center w-full h-40 md:h-52 lg:h-64 mb-3 rounded-md bg-gray-50 overflow-hidden">
                                 <img src={product.image} alt={product.name} className="object-cover w-full h-full" />
                             </div>
@@ -120,7 +121,7 @@ const SecondPage = () => {
                                 <div className="flex justify-center items-center">{renderStars(product.rating)}</div>
                                 <p className="text-sm font-semibold text-gray-900">{product.price}</p>
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
 
