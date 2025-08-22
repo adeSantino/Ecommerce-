@@ -1,35 +1,59 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Login from './Login';
 import Register from './Register';
+import { auth, db } from '@/firebase/firebaseConfig';
+import { signOut, onAuthStateChanged } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
 
 const Header = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
-
-  const openLogin = () => {
-    setIsLoginOpen(true);
-    setIsRegisterOpen(false);
-  };
-
-  const openRegister = () => {
-    setIsRegisterOpen(true);
-    setIsLoginOpen(false);
-  };
+  const [user, setUser] = useState(null); 
+  const [profile, setProfile] = useState(null); 
 
   const closeModals = () => {
     setIsLoginOpen(false);
     setIsRegisterOpen(false);
   };
 
-  const toggleCategories = () => {
-    setIsCategoriesOpen(!isCategoriesOpen);
+  const openLogin = () => {
+    closeModals();
+    setIsLoginOpen(true);
+  };
+
+  const openRegister = () => {
+    closeModals();
+    setIsRegisterOpen(true);
+  };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      setUser(firebaseUser);
+      if (firebaseUser) {
+        const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
+        if (userDoc.exists()) {
+          setProfile(userDoc.data());
+        } else {
+          setProfile(null);
+        }
+      } else {
+        setProfile(null);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    setUser(null);
+    setProfile(null);
   };
 
   return (
-
+    <nav className="relative bg-white shadow-sm z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row items-center sm:justify-between h-auto sm:h-16 py-3 sm:py-0">
 
@@ -52,6 +76,8 @@ const Header = () => {
 
             {/* Desktop Categories Button */}
             <button
+              className="hidden sm:flex ml-4 items-center space-x-1.5 text-gray-600 hover:text-black transition-colors px-3 py-2 rounded-md group"
+              onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
             >
               <div className="flex flex-col space-y-1.5">
                 <div className="w-5 h-px bg-current transition-all duration-200 group-hover:bg-black"></div>
@@ -78,7 +104,7 @@ const Header = () => {
             </div>
           </div>
 
- 
+          <div className="flex items-center space-x-4 mt-3 sm:mt-0 w-full sm:w-auto justify-between sm:justify-start">
             <button className="text-gray-600 hover:text-black transition-colors p-1">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -91,6 +117,26 @@ const Header = () => {
               </svg>
               <span className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium">0</span>
             </button>
+
+            {/* User Info or Auth Buttons */}
+            {user && profile ? (
+              <div className="flex items-center space-x-2">
+                <span className="text-sm font-medium text-black">
+                  {profile.firstName} {profile.lastName}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  className="text-sm font-medium text-white bg-black px-4 py-2 rounded-full hover:bg-gray-800 transition-colors"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <>
+                <button onClick={openLogin} className="hidden sm:block text-sm font-medium text-gray-600 hover:text-black transition-colors">Log In</button>
+                <button onClick={openRegister} className="hidden sm:block text-sm font-medium text-white bg-black px-4 py-2 rounded-full hover:bg-gray-800 transition-colors">Sign Up</button>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -124,7 +170,7 @@ const Header = () => {
         onClose={closeModals}
         onSwitchToLogin={openLogin}
       />
-    </header>
+    </nav>
   );
 };
 
