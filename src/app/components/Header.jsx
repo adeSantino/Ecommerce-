@@ -31,13 +31,13 @@ const Header = () => {
     setIsCategoriesOpen(!isCategoriesOpen);
   };
 
-  // Placeholder user & profile for demo; replace with your auth logic
-  const user = null;
-  const profile = null;
-
   const goToCart = () => {
     router.push('/Cart');
   };
+
+  // Placeholder user & profile; replace with your auth logic
+  const user = null;
+  const profile = null;
 
   return (
     <header className="bg-white shadow-md px-4 py-3 relative">
