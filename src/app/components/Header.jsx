@@ -1,15 +1,10 @@
 'use client';
 
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import Login from './Login';
 import Register from './Register';
-
-
-import { auth, db } from '@/firebase/firebaseConfig';
-import { signOut, onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
 
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -46,7 +41,7 @@ const Header = () => {
   };
 
   return (
-    <nav className="relative bg-white shadow-sm z-50">
+    <nav className="relative bg-white shadow-sm z-50 group">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-center justify-between py-3 gap-3 sm:gap-0">
           
@@ -57,10 +52,6 @@ const Header = () => {
                   LOGO
               </Link>
             </div>
-
-  };
-
-
 
             {/* Mobile Categories Button */}
             <button
@@ -81,13 +72,9 @@ const Header = () => {
               className="hidden sm:flex items-center space-x-1.5 text-gray-600 hover:text-black hover:bg-gray-100 transition-all duration-200 px-3 py-2 rounded-md"
             >
               <div className="flex flex-col space-y-1.5">
-
-
-
                 <div className="w-5 h-px bg-current transition-all duration-200 group-hover:bg-black"></div>
                 <div className="w-5 h-px bg-current transition-all duration-200 group-hover:bg-black"></div>
                 <div className="w-5 h-px bg-current transition-all duration-200 group-hover:bg-black"></div>
-
               </div>
               <span className="text-sm font-medium">Categories</span>
             </button>
@@ -131,30 +118,8 @@ const Header = () => {
             </button>
 
             {/* User Info or Auth Buttons */}
-
-            {user && profile ? (
-              <div className="flex items-center space-x-2">
-                <Link
-                  href="/profile"
-                  className="text-sm font-medium text-black hover:underline"
-                >
-                  {(profile.firstName && profile.lastName)
-                    ? `${profile.firstName} ${profile.lastName}`
-                    : (profile.email || user.email)}
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="text-sm font-medium text-white bg-black px-4 py-2 rounded-full hover:bg-gray-800 transition-colors"
-                >
-                  Logout
-                </button>
-              </div>
-            ) : (
-              <>
-                <button onClick={openLogin} className="hidden sm:block text-sm font-medium text-gray-600 hover:text-black transition-colors">Log In</button>
-                <button onClick={openRegister} className="hidden sm:block text-sm font-medium text-white bg-black px-4 py-2 rounded-full hover:bg-gray-800 transition-colors">Sign Up</button>
-              </>
-            )}
+            <button onClick={openLogin} className="hidden sm:block text-sm font-medium text-gray-600 hover:text-black transition-colors">Log In</button>
+            <button onClick={openRegister} className="hidden sm:block text-sm font-medium text-white bg-black px-4 py-2 rounded-full hover:bg-gray-800 transition-colors">Sign Up</button>
 
           </div>
         </div>
