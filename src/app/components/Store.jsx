@@ -1,8 +1,10 @@
 "use client";
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 const Store = () => {
+  const router = useRouter();
   const [imageErrors, setImageErrors] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState('all');
