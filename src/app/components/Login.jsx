@@ -1,21 +1,27 @@
 'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation'; 
 
 const Login = ({ isOpen, onClose, onSwitchToRegister }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isRegister, setIsRegister] = useState(false);
+  const [error, setError] = useState('');
+  const router = useRouter();
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+    const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Login attempt:', { email, password });
+    // For now, just close the modal
+    // Firebase authentication can be added back later
+    onClose();
   };
 
-  const handleRegister = () => {
-    // Handle register logic here
-    console.log('Register clicked');
+  const handleGoogle = () => {
+    // For now, just close the modal
+    // Firebase authentication can be added back later
+    onClose();
   };
 
   return (
@@ -28,7 +34,7 @@ const Login = ({ isOpen, onClose, onSwitchToRegister }) => {
 
       {/* Modal */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-auto">
+        <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-auto relative">
           {/* Modal Header */}
           <div className="text-center pt-8 pb-6">
             <h2 className="text-3xl font-serif text-black mb-2">Logo Here</h2>
@@ -45,6 +51,11 @@ const Login = ({ isOpen, onClose, onSwitchToRegister }) => {
           {/* Modal Body */}
           <div className="px-8 pb-8">
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Error Message */}
+              {error && (
+                <div className="text-red-500 text-sm mb-2">{error}</div>
+              )}
+
               {/* Email Field */}
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-black mb-3">
@@ -83,14 +94,14 @@ const Login = ({ isOpen, onClose, onSwitchToRegister }) => {
                   type="submit"
                   className="w-full bg-black text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-800 transition-colors"
                 >
-                  Sign in
+                  {isRegister ? 'Register' : 'Sign in'}
                 </button>
                 <button
                   type="button"
-                  onClick={onSwitchToRegister}
+                  onClick={() => setIsRegister(!isRegister)}
                   className="w-full bg-white text-black py-3 px-4 rounded-lg font-medium border-2 border-black hover:bg-gray-50 transition-colors"
                 >
-                  Register
+                  {isRegister ? 'Back to Login' : 'Register'}
                 </button>
               </div>
 
@@ -108,16 +119,7 @@ const Login = ({ isOpen, onClose, onSwitchToRegister }) => {
               <div className="space-y-3">
                 <button
                   type="button"
-                  className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center justify-center space-x-3"
-                >
-                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                  </svg>
-                  <span>Continue with Facebook</span>
-                </button>
-                
-                <button
-                  type="button"
+                  onClick={handleGoogle}
                   className="w-full bg-white text-gray-700 py-3 px-4 rounded-lg font-medium border border-gray-300 hover:bg-gray-50 transition-colors flex items-center justify-center space-x-3"
                 >
                   <svg className="w-5 h-5" viewBox="0 0 24 24">

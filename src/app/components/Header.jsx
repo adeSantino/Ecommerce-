@@ -3,39 +3,50 @@
 import { useState } from 'react';
 import Login from './Login';
 import Register from './Register';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const Header = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
-
-  const openLogin = () => {
-    setIsLoginOpen(true);
-    setIsRegisterOpen(false);
-  };
-
-  const openRegister = () => {
-    setIsRegisterOpen(true);
-    setIsLoginOpen(false);
-  };
+  const router = useRouter();
 
   const closeModals = () => {
     setIsLoginOpen(false);
     setIsRegisterOpen(false);
   };
 
-  const toggleCategories = () => {
+  const openLogin = () => {
+    closeModals();
+    setIsLoginOpen(true);
+  };
+
+  const openRegister = () => {
+    closeModals();
+    setIsRegisterOpen(true);
+  };
+
+    const toggleCategories = () => {
     setIsCategoriesOpen(!isCategoriesOpen);
   };
 
-  return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-50 relative group">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row items-center sm:justify-between h-auto sm:h-16 py-3 sm:py-0">
+  const goToCart = () => {
+    router.push('/Cart');
+  };
 
-          {/* Logo + Categories */}
-          <div className="flex items-center w-full sm:w-auto justify-between sm:justify-start">
-            <h1 className="text-xl font-semibold text-black tracking-tight">LOGO</h1>
+  return (
+    <nav className="relative bg-white shadow-sm z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-wrap items-center justify-between py-3 gap-3 sm:gap-0">
+          
+          {/* Logo */}
+          <div className="flex items-center justify-between w-full sm:w-auto">
+            <div className="flex items-center justify-between w-full sm:w-auto">
+              <Link href="/" className="text-xl font-semibold text-black tracking-tight">
+                  LOGO
+              </Link>
+            </div>
 
             {/* Mobile Categories Button */}
             <button
@@ -56,12 +67,14 @@ const Header = () => {
               className="hidden sm:flex items-center space-x-1.5 text-gray-600 hover:text-black hover:bg-gray-100 transition-all duration-200 px-3 py-2 rounded-md"
             >
               <div className="flex flex-col space-y-1.5">
-                <div className="w-5 h-px bg-current transition-all duration-200 group-hover:bg-black"></div>
-                <div className="w-5 h-px bg-current transition-all duration-200 group-hover:bg-black"></div>
-                <div className="w-5 h-px bg-current transition-all duration-200 group-hover:bg-black"></div>
+                <div className="w-5 h-px bg-current"></div>
+                <div className="w-5 h-px bg-current"></div>
+                <div className="w-5 h-px bg-current"></div>
               </div>
               <span className="text-sm font-medium">Categories</span>
             </button>
+
+
           </div>
 
           {/* Search Bar */}
@@ -80,17 +93,7 @@ const Header = () => {
             </div>
           </div>
 
-          {/* User Action Icons */}
-          <div className="flex items-center space-x-5 mt-3 sm:mt-0">
-            {/* Sign in */}
-            <button 
-              onClick={openLogin}
-              className="text-sm text-gray-600 hover:text-black transition-colors cursor-pointer font-medium"
-            >
-              Sign in
-            </button>
-            
-            {/* Wishlist Icon */}
+          <div className="flex items-center space-x-4 mt-3 sm:mt-0 w-full sm:w-auto justify-between sm:justify-start">
             <button className="text-gray-600 hover:text-black transition-colors p-1">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -104,6 +107,10 @@ const Header = () => {
               </svg>
               <span className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium">0</span>
             </button>
+
+            {/* User Info or Auth Buttons */}
+            <button onClick={openLogin} className="hidden sm:block text-sm font-medium text-gray-600 hover:text-black transition-colors">Log In</button>
+            <button onClick={openRegister} className="hidden sm:block text-sm font-medium text-white bg-black px-4 py-2 rounded-full hover:bg-gray-800 transition-colors">Sign Up</button>
           </div>
         </div>
       </div>
@@ -137,7 +144,7 @@ const Header = () => {
         onClose={closeModals}
         onSwitchToLogin={openLogin}
       />
-    </header>
+    </nav>
   );
 };
 
