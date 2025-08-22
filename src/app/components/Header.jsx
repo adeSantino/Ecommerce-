@@ -3,16 +3,19 @@
 import { useState } from 'react';
 import Login from './Login';
 import Register from './Register';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 const Header = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+  const router = useRouter();
 
-  // Placeholder user & profile for demo; replace with your auth logic
-  const user = null;
-  const profile = null;
+  const closeModals = () => {
+    setIsLoginOpen(false);
+    setIsRegisterOpen(false);
+  };
 
   const openLogin = () => {
     setIsRegisterOpen(false);
@@ -24,13 +27,16 @@ const Header = () => {
     setIsRegisterOpen(true);
   };
 
-  const closeModals = () => {
-    setIsLoginOpen(false);
-    setIsRegisterOpen(false);
-  };
-
   const toggleCategories = () => {
     setIsCategoriesOpen(!isCategoriesOpen);
+  };
+
+  // Placeholder user & profile for demo; replace with your auth logic
+  const user = null;
+  const profile = null;
+
+  const goToCart = () => {
+    router.push('/Cart');
   };
 
   return (
@@ -39,21 +45,37 @@ const Header = () => {
         {/* Logo */}
         <div className="text-xl font-bold text-black">MyStore</div>
 
-        {/* Categories Button */}
-        <button
-          onClick={toggleCategories}
-          className="flex items-center space-x-1.5 text-gray-600 hover:text-black transition-colors px-3 py-2 rounded-md"
-        >
-          <div className="flex flex-col space-y-1.5">
-            <div className="w-5 h-px bg-current"></div>
-            <div className="w-5 h-px bg-current"></div>
-            <div className="w-5 h-px bg-current"></div>
-          </div>
-          <span className="text-sm font-medium">Categories</span>
-        </button>
+        {/* Categories Buttons */}
+        <div className="flex items-center space-x-2">
+          {/* Mobile Categories Button */}
+          <button
+            onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
+            className="sm:hidden flex items-center space-x-1.5 text-gray-600 hover:text-black transition-colors px-3 py-2 rounded-md"
+          >
+            <div className="flex flex-col space-y-1.5">
+              <div className="w-5 h-px bg-current"></div>
+              <div className="w-5 h-px bg-current"></div>
+              <div className="w-5 h-px bg-current"></div>
+            </div>
+            <span className="text-sm font-medium">Categories</span>
+          </button>
+
+          {/* Desktop Categories Button */}
+          <button
+            onClick={toggleCategories}
+            className="hidden sm:flex items-center space-x-1.5 text-gray-600 hover:text-black hover:bg-gray-100 transition-all duration-200 px-3 py-2 rounded-md"
+          >
+            <div className="flex flex-col space-y-1.5">
+              <div className="w-5 h-px bg-current transition-all duration-200 group-hover:bg-black"></div>
+              <div className="w-5 h-px bg-current transition-all duration-200 group-hover:bg-black"></div>
+              <div className="w-5 h-px bg-current transition-all duration-200 group-hover:bg-black"></div>
+            </div>
+            <span className="text-sm font-medium">Categories</span>
+          </button>
+        </div>
 
         {/* Auth Buttons */}
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-4">
           {user && profile ? (
             <>
               <Link href="/profile" className="text-sm font-medium text-black hover:underline">
