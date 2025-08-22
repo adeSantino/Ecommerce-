@@ -2,9 +2,10 @@
 
 
 import { useState } from 'react';
-
 import Login from './Login';
 import Register from './Register';
+
+
 
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -15,11 +16,18 @@ const Header = () => {
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const router = useRouter();
 
+
+
   const closeModals = () => {
     setIsLoginOpen(false);
     setIsRegisterOpen(false);
   };
 
+
+  const closeModals = () => {
+    setIsLoginOpen(false);
+    setIsRegisterOpen(false);
+  };
 
   const openLogin = () => {
     closeModals();
@@ -31,7 +39,7 @@ const Header = () => {
     setIsRegisterOpen(true);
   };
 
-    const toggleCategories = () => {
+  const toggleCategories = () => {
     setIsCategoriesOpen(!isCategoriesOpen);
 
   };
@@ -44,14 +52,14 @@ const Header = () => {
     <nav className="relative bg-white shadow-sm z-50 group">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-center justify-between py-3 gap-3 sm:gap-0">
-          
+
+
           {/* Logo */}
           <div className="flex items-center justify-between w-full sm:w-auto">
-            <div className="flex items-center justify-between w-full sm:w-auto">
-              <Link href="/" className="text-xl font-semibold text-black tracking-tight">
-                  LOGO
-              </Link>
-            </div>
+            <Link href="/" className="text-xl font-semibold text-black tracking-tight">
+              LOGO
+            </Link>
+
 
             {/* Mobile Categories Button */}
             <button
@@ -99,9 +107,8 @@ const Header = () => {
           </div>
 
 
+          {/* User / Cart / Auth Buttons */}
           <div className="flex items-center space-x-4 mt-3 sm:mt-0 w-full sm:w-auto justify-between sm:justify-start">
-
-
 
             <button className="text-gray-600 hover:text-black transition-colors p-1">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -109,19 +116,18 @@ const Header = () => {
               </svg>
             </button>
 
-            {/* Shopping Cart Icon */}
-            <button className="text-gray-600 hover:text-black transition-colors p-1 relative">
+            <button onClick={goToCart} className="text-gray-600 hover:text-black transition-colors p-1 relative">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
               <span className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium">0</span>
             </button>
 
-            {/* User Info or Auth Buttons */}
             <button onClick={openLogin} className="hidden sm:block text-sm font-medium text-gray-600 hover:text-black transition-colors">Log In</button>
             <button onClick={openRegister} className="hidden sm:block text-sm font-medium text-white bg-black px-4 py-2 rounded-full hover:bg-gray-800 transition-colors">Sign Up</button>
 
           </div>
+
         </div>
       </div>
 

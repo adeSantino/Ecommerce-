@@ -1,9 +1,8 @@
-import Store from "../components/Store";
-
+import Secondpage from "../components/Secondpage";
 export default function SecondPage() {
     return (
         <div>
-            <Store />
+            <Secondpage />
         </div>
     );
 }
