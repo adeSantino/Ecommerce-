@@ -1,8 +1,12 @@
 'use client';
 
+
 import { useState } from 'react';
 import Login from './Login';
 import Register from './Register';
+
+
+
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -11,6 +15,14 @@ const Header = () => {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const router = useRouter();
+
+
+
+  const closeModals = () => {
+    setIsLoginOpen(false);
+    setIsRegisterOpen(false);
+  };
+
 
   const closeModals = () => {
     setIsLoginOpen(false);
@@ -29,6 +41,7 @@ const Header = () => {
 
   const toggleCategories = () => {
     setIsCategoriesOpen(!isCategoriesOpen);
+
   };
 
   const goToCart = () => {
@@ -40,11 +53,13 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-center justify-between py-3 gap-3 sm:gap-0">
 
+
           {/* Logo */}
           <div className="flex items-center justify-between w-full sm:w-auto">
             <Link href="/" className="text-xl font-semibold text-black tracking-tight">
               LOGO
             </Link>
+
 
             {/* Mobile Categories Button */}
             <button
@@ -71,6 +86,8 @@ const Header = () => {
               </div>
               <span className="text-sm font-medium">Categories</span>
             </button>
+
+
           </div>
 
           {/* Search Bar */}
@@ -89,8 +106,10 @@ const Header = () => {
             </div>
           </div>
 
+
           {/* User / Cart / Auth Buttons */}
           <div className="flex items-center space-x-4 mt-3 sm:mt-0 w-full sm:w-auto justify-between sm:justify-start">
+
             <button className="text-gray-600 hover:text-black transition-colors p-1">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -106,6 +125,7 @@ const Header = () => {
 
             <button onClick={openLogin} className="hidden sm:block text-sm font-medium text-gray-600 hover:text-black transition-colors">Log In</button>
             <button onClick={openRegister} className="hidden sm:block text-sm font-medium text-white bg-black px-4 py-2 rounded-full hover:bg-gray-800 transition-colors">Sign Up</button>
+
           </div>
 
         </div>

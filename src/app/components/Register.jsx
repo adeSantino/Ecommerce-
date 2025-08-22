@@ -1,9 +1,5 @@
 'use client';
 import { useState } from 'react';
-import { auth } from '@/firebase/firebaseConfig';
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { db } from '@/firebase/firebaseConfig';
-import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useRouter } from 'next/navigation';
 
 const Register = ({ isOpen, onClose, onSwitchToLogin }) => {
@@ -27,61 +23,24 @@ const Register = ({ isOpen, onClose, onSwitchToLogin }) => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setError('');
+
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
-    setLoading(true);
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        formData.email,
-        formData.password
-      );
-      await setDoc(doc(db, "users", userCredential.user.uid), {
-        email: formData.email,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        role: "user",
-      });
-      setLoading(false);
-      onClose();
-      router.push('/');
-    } catch (err) {
-      setLoading(false);
-      setError(err.message);
-    }
+
+    // For now, just close the modal
+    // Firebase authentication can be added back later
+    onClose();
   };
 
   // Google sign-in registration
-  const handleGoogleRegister = async () => {
-    setError('');
-    setLoading(true);
-    try {
-      const provider = new GoogleAuthProvider();
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      // Check if user doc exists
-      const userDoc = await getDoc(doc(db, "users", user.uid));
-      if (!userDoc.exists()) {
-        // Create user doc with role: "user"
-        await setDoc(doc(db, "users", user.uid), {
-          email: user.email,
-          firstName: user.displayName ? user.displayName.split(' ')[0] : '',
-          lastName: user.displayName ? user.displayName.split(' ').slice(1).join(' ') : '',
-          role: "user",
-        });
-      }
-      setLoading(false);
-      onClose();
-      router.push('/');
-    } catch (err) {
-      setLoading(false);
-      setError(err.message);
-    }
+  const handleGoogleRegister = () => {
+    // For now, just close the modal
+    // Firebase authentication can be added back later
+    onClose();
   };
 
   return (
