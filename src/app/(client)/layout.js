@@ -3,7 +3,6 @@ import "./globals.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
-// Define metadata if you need it, or remove this block entirely if not.
 export const metadata = {
   title: "Inspire Next Global Inc.",
   description: "Your site description",
