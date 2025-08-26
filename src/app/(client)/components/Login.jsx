@@ -65,7 +65,7 @@ const Login = ({ isOpen, onClose, onSwitchToRegister }) => {
       const role = userDoc.exists() ? userDoc.data().role : "user";
       if (role === "admin" || role === "superAdmin") {
         onClose();
-        router.push('/adminDashboard');
+        router.push('/pages/adminDashboard');
       } else {
         onClose();
         router.push('/');

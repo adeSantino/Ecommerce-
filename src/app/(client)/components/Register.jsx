@@ -56,7 +56,6 @@ const Register = ({ isOpen, onClose, onSwitchToLogin }) => {
     }
   };
 
-  // Google sign-in registration
   const handleGoogleRegister = async () => {
     setError('');
     setLoading(true);
@@ -64,10 +63,8 @@ const Register = ({ isOpen, onClose, onSwitchToLogin }) => {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      // Check if user doc exists
       const userDoc = await getDoc(doc(db, "users", user.uid));
       if (!userDoc.exists()) {
-        // Create user doc with role: "user"
         await setDoc(doc(db, "users", user.uid), {
           email: user.email,
           firstName: user.displayName ? user.displayName.split(' ')[0] : '',
