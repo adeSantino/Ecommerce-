@@ -22,7 +22,7 @@ const Store = () => {
     },
     {
       id: 2,
-      image: "https://images.unsplash.com/photo-1543632281-a3927d2c3e41?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      image: "https://images.unsplash.com/photo-1572935579930-b472e9e2954a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       alt: "Light green dress",
       title: "Summer Green Floral Dress",
       rating: 5,
@@ -188,7 +188,7 @@ const Store = () => {
             <div key={product.id} className="group cursor-pointer product-card bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100">
               <div className="bg-gray-100 rounded-xl overflow-hidden aspect-square mb-4 relative">
                 <Image
-                  src={imageErrors[index] ? '/fallback-image.jpg' : product.image}
+                  src={imageErrors[index] ? '/fallback-image.png' : product.image}
                   alt={product.alt}
                   fill
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"

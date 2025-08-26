@@ -1,12 +1,11 @@
 'use client';
 
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Login from './Login';
 import Register from './Register';
-
-
-
+import { auth, db } from '@/firebase/firebaseConfig';
+import { signOut, onAuthStateChanged } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -14,15 +13,9 @@ const Header = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+  const [user, setUser] = useState(null); 
+  const [profile, setProfile] = useState(null); 
   const router = useRouter();
-
-
-
-  const closeModals = () => {
-    setIsLoginOpen(false);
-    setIsRegisterOpen(false);
-  };
-
 
   const closeModals = () => {
     setIsLoginOpen(false);
@@ -39,32 +32,54 @@ const Header = () => {
     setIsRegisterOpen(true);
   };
 
-  const toggleCategories = () => {
+    const toggleCategories = () => {
     setIsCategoriesOpen(!isCategoriesOpen);
-
   };
 
   const goToCart = () => {
     router.push('/Cart');
   };
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      setUser(firebaseUser);
+      if (firebaseUser) {
+        const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
+        if (userDoc.exists()) {
+          setProfile(userDoc.data());
+        } else {
+          setProfile(null);
+        }
+      } else {
+        setProfile(null);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    setUser(null);
+    setProfile(null);
+  };
+
   return (
-    <nav className="relative bg-white shadow-sm z-50 group">
+    <nav className="relative bg-white shadow-sm z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-center justify-between py-3 gap-3 sm:gap-0">
-
-
+          
           {/* Logo */}
           <div className="flex items-center justify-between w-full sm:w-auto">
-            <Link href="/" className="text-xl font-semibold text-black tracking-tight">
-              LOGO
-            </Link>
-
+            <div className="flex items-center justify-between w-full sm:w-auto">
+              <Link href="/" className="text-xl font-semibold text-black tracking-tight">
+                  LOGO
+              </Link>
+            </div>
 
             {/* Mobile Categories Button */}
             <button
-              onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
-              className="sm:hidden flex items-center space-x-1.5 text-gray-600 hover:text-black transition-colors px-3 py-2 rounded-md"
+              onClick={toggleCategories}
+              className="sm:hidden flex items-center space-x-2 text-gray-600 hover:text-black transition-colors"
             >
               <div className="flex flex-col space-y-1.5">
                 <div className="w-5 h-px bg-current"></div>
@@ -76,8 +91,8 @@ const Header = () => {
 
             {/* Desktop Categories Button */}
             <button
-              onClick={toggleCategories}
-              className="hidden sm:flex items-center space-x-1.5 text-gray-600 hover:text-black hover:bg-gray-100 transition-all duration-200 px-3 py-2 rounded-md"
+              className="hidden sm:flex ml-4 items-center space-x-1.5 text-gray-600 hover:text-black transition-colors px-3 py-2 rounded-md group"
+              onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
             >
               <div className="flex flex-col space-y-1.5">
                 <div className="w-5 h-px bg-current transition-all duration-200 group-hover:bg-black"></div>
@@ -86,8 +101,6 @@ const Header = () => {
               </div>
               <span className="text-sm font-medium">Categories</span>
             </button>
-
-
           </div>
 
           {/* Search Bar */}
@@ -106,8 +119,6 @@ const Header = () => {
             </div>
           </div>
 
-
-          {/* User / Cart / Auth Buttons */}
           <div className="flex items-center space-x-4 mt-3 sm:mt-0 w-full sm:w-auto justify-between sm:justify-start">
 
             <button className="text-gray-600 hover:text-black transition-colors p-1">
@@ -116,6 +127,7 @@ const Header = () => {
               </svg>
             </button>
 
+            {/* Cart Icon */}
             <button onClick={goToCart} className="text-gray-600 hover:text-black transition-colors p-1 relative">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -123,18 +135,40 @@ const Header = () => {
               <span className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium">0</span>
             </button>
 
-            <button onClick={openLogin} className="hidden sm:block text-sm font-medium text-gray-600 hover:text-black transition-colors">Log In</button>
-            <button onClick={openRegister} className="hidden sm:block text-sm font-medium text-white bg-black px-4 py-2 rounded-full hover:bg-gray-800 transition-colors">Sign Up</button>
-
+            {/* User Info or Auth Buttons */}
+            {user && profile ? (
+              <div className="flex items-center space-x-2">
+                <Link
+                  href="/profile"
+                  className="text-sm font-medium text-black hover:underline"
+                >
+                  {(profile.firstName && profile.lastName)
+                    ? `${profile.firstName} ${profile.lastName}`
+                    : (profile.email || user.email)}
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="text-sm font-medium text-white bg-black px-4 py-2 rounded-full hover:bg-gray-800 transition-colors"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <>
+                <button onClick={openLogin} className="hidden sm:block text-sm font-medium text-gray-600 hover:text-black transition-colors">Log In</button>
+                <button onClick={openRegister} className="hidden sm:block text-sm font-medium text-white bg-black px-4 py-2 rounded-full hover:bg-gray-800 transition-colors">Sign Up</button>
+              </>
+            )}
           </div>
-
         </div>
       </div>
 
       {/* Categories Dropdown */}
-      <div className={`absolute left-0 right-0 top-full bg-white border-b border-gray-200 shadow-md z-50 transition-all duration-300 ease-in-out ${
-        isCategoriesOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-4 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto'
-      }`}>
+      <div
+        className={`absolute left-0 right-0 bg-white border-b border-gray-200 shadow-md z-50 transition-all duration-300 ease-in-out ${
+          isCategoriesOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-4 pointer-events-none'
+        }`}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
             <a href="#" className="text-sm text-gray-600 hover:text-black transition-colors py-1.5">Electronics</a>
@@ -148,11 +182,7 @@ const Header = () => {
       </div>
 
       {/* Login Modal */}
-      <Login 
-        isOpen={isLoginOpen} 
-        onClose={closeModals}
-        onSwitchToRegister={openRegister}
-      />
+      <Login isOpen={isLoginOpen} onClose={closeModals} onSwitchToRegister={openRegister} />
 
       {/* Register Modal */}
       <Register 
@@ -160,7 +190,6 @@ const Header = () => {
         onClose={closeModals}
         onSwitchToLogin={openLogin}
       />
-
     </nav>
   );
 };
